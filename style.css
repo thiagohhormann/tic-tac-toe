@@ -46,21 +46,35 @@ table {
 
 /**********/
 
-html, body {margin: 0; padding: 0; overflow-x:hidden;
+html, body {margin: 0; padding: 0; overflow-x:hidden; 
+  font-family: "sans-serif";
 }
+
+header {
+  border: 5px solid red;
+}
+
+/***Game***/
 
 .container {
   border: 1px solid red;
-  display: flex;
+  display: flex; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-} 
+  gap: 10px;
+}
+
+.wrapper {
+  border: 2px solid rebeccapurple;
+  padding-inline: 2em;
+}
 
 .board {
   display: flex;
-  border: 2px solid black;  
-  font-family: "Unbounded";
-  font-size: 2em;
+  border: 2px solid black;   
+  font-size: 3em;
+  margin-top: 5vh;
 }
 
 .column{
@@ -71,16 +85,71 @@ html, body {margin: 0; padding: 0; overflow-x:hidden;
 }
 
 .square {
-  display: flex;  
+  display:flex;  
   border: 2px solid aqua;
-  width: 25vw;
-  height: 25vw;
+  width: 80px;
+  height: 80px;
   justify-content: center;
   align-items: center;
 }
 
 .score {
   display: flex;
-  
+  border: 2px solid green;
+  justify-content: center;
+  padding: 1em; 
 }
 
+.score-left {
+  border: 2px solid rebeccapurple; 
+  text-align: center;
+  line-height: 2em;
+  padding: 1em;
+  background-color: red;
+}
+
+.score-rigth {
+  border: 2px solid teal;
+  text-align: center;
+  line-height: 2em;
+  padding: 1em;
+  background-color: blue;
+}
+
+.score span{
+  display: block;
+  background: rgba(235, 226, 226, 0.836);
+  padding-inline: 0.5em;
+}
+
+.score span:first-child{
+  margin-bottom: 10px;
+}
+
+.status{
+  display: flex;
+  border: 2px solid green;
+  justify-content: center;
+  padding: 1em; 
+}
+
+.status span {
+  display: block;
+  background: tomato;
+  padding: 0.5em;
+  text-align: center;
+}
+
+
+
+@media screen and (min-width: 600px){
+
+  .square {
+    width: 100px;
+    height: 100px;
+  }
+
+  .score-left {
+    margin-right: 1em;
+  }
+}
