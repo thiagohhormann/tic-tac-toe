@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Unbounded&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 /*** Reset ***/
 
@@ -48,8 +49,8 @@ table {
 
 /**********/
 
-html, body {margin: 0; padding: 0; overflow-x:hidden; 
-  font-family: "sans-serif";
+html, body {margin: 0; padding: 0; overflow-x:hidden;  
+   font-family: 'Anton', sans-serif; 
 }
 
 header {
@@ -59,99 +60,123 @@ header {
 /*** Main Style ***/
 
 .container {
-  border: 1px solid red;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  border: 2px solid purple;
 }
 
 .wrapper {
-  border: 2px solid rebeccapurple;
-  padding-inline: 2em;
+  border: 2px solid royalblue;
 }
 
 .board {
+  border: 2px solid green;
   display: flex;
-  border: 2px solid black;   
-  font-size: 3em;
-  margin-top: 5vh;
 }
 
 .column{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid palegreen;
+  border: 2px solid aqua;
+  flex-flow: column;
+  width: 100%;
 }
 
 .square {
-  display:flex;  
-  border: 2px solid aqua;
-  width: 80px;
-  height: 80px;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  border: 2px solid black;
+  height: calc(100vw/3 - 12px);
+}
+
+.status{
+  border: 2px solid chartreuse;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.status p {
+  background-color: grey;
+  display: inline-block;
+  padding: 3% 3%;
 }
 
 .score {
   display: flex;
-  border: 2px solid green;
+  border: 2px saddlebrown;
   justify-content: center;
-  padding: 1em; 
+  gap: 5%;
+  margin-top: 5%;
+}
+
+.score > div {
+  padding: 5% 5%;
+  text-align: center;
+  min-width: calc(100vw / 2 - 5vh);
 }
 
 .score-left {
-  border: 2px solid rebeccapurple; 
-  text-align: center;
-  line-height: 2em;
-  padding: 1em;
-  background-color: red;
+  border: 2px solid crimson;
 }
 
 .score-right {
-  border: 2px solid teal;
-  text-align: center;
-  line-height: 2em;
-  padding: 1em;
-  background-color: blue;
+  border: 2px solid blue;
 }
 
-.score span{
-  display: block;
-  background: rgba(235, 226, 226, 0.836);
-  padding-inline: 0.5em;
+.score-left p, .score-right p{
+  background-color: grey;
+  margin-bottom: 5%;
+  padding: 5% 2%;
 }
 
-.score span:first-child{
-  margin-bottom: 10px;
+
+.score p{
+  background-color: grey;
 }
 
-.status{
+.settings {
   display: flex;
-  border: 2px solid green;
-  justify-content: center;
-  padding: 1em; 
+  flex-flow: column;
+  height: 100vw;
 }
 
-.status span {
-  display: block;
-  background: tomato;
-  padding: 0.5em;
+.settings h1 {
   text-align: center;
+  font-family: 'Anton', sans-serif;
+  font-size: calc(100vw/10);
+  padding: 5%;
+  font-weight:bold;
+  text-transform: uppercase;
+  
 }
 
-
-
-@media screen and (min-width: 600px){
-
-  .square {
-    width: 100px;
-    height: 100px;
-  }
-
-  .score-left {
-    margin-right: 1em;
-  }
+form {
+  border: 2px solid blue;
+  display: flex;
+  flex-flow: column;
+  height: 50vw;
+  justify-content: center;
+  gap: 5%;
 }
+
+form input {
+  width: 60vw;
+  height: 20%;
+  text-align: center;
+  align-self: center;
+  border: 1px solid black;
+  box-shadow: 2px 2px black; 
+  border-radius: 2px;
+  outline: none;
+}
+
+form button {
+  text-transform: uppercase;
+  padding: 2% 5%;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 2px;
+  background: none;
+  margin-inline: auto;
+  margin-top: 5%;
+}
+
+.currentPlayer {
+  border: 2px solid gold;
+}
+
