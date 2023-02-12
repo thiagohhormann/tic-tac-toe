@@ -40,9 +40,8 @@ class Player {
 }
 
 class Game {
-  constructor(status = 0, currentPlayer) {
+  constructor(status = 0) {
     this.status = status;
-    this.currentPlayer = currentPlayer;
   }
 
   getStatus() {
@@ -59,14 +58,6 @@ class Game {
   setStatus(_status) {
     this.status = _status;
   }
-
-  getCurrentPlayer() {
-    return this.currentPlayer;
-  }
-
-  setCurrentPlayer(currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
 }
 
 function sortMarks() {
@@ -80,14 +71,16 @@ const squares = document.querySelectorAll(".square");
 const scoreLeft = document.getElementsByClassName("score-left");
 const scoreRight = document.getElementsByClassName("score-right");
 
-let labelScoreLeft = scoreLeft[0].children;
-let labelScoreRight = scoreRight[0].children;
+const labelScoreLeft = scoreLeft[0].children;
+const labelScoreRight = scoreRight[0].children;
+
+function cleanBoard() {
+  squares.forEach((e) => {
+    e.textContent = "";
+  });
+}
 
 function setNames(player1 = "Player 1", player2 = "Player 2") {
-  squares.forEach((e) => {
-    e.innerHTML = "";
-  });
-  
   labelScoreLeft[0].textContent = player1;
   labelScoreRight[0].textContent = player2;
 }
@@ -97,44 +90,30 @@ function setMarks(player1Mark, player2Mark) {
   labelScoreRight[1].textContent = player2Mark.toUpperCase();
 }
 
-let alternation = 0;
+let currentPlayer = "o";
 
-function calcAlternation(){
-  return alternation++;
+function handlePlayerChange() {
+  currentPlayer = (currentPlayer == "x" ? "o" : "x");
+  return currentPlayer;
 }
 
-function setCurrentPlayer() {
-  
-  if (calcAlternation() % 2 == 0) {
-    scoreLeft[0].classList.add("currentPlayer");
-    scoreRight[0].classList.remove("currentPlayer");
-  } else {
-    scoreRight[0].classList.add("currentPlayer");
-    scoreLeft[0].classList.remove("currentPlayer");
-  }
-}
-
-let verifySquare = function () {
-  this.textContent == "" ? (textContent = markPlayer) : true;
-};
-
-Array.from(squares).forEach(function (square) {
-  square.addEventListener("click", verifySquare);
+squares.forEach((square) => {
+  square.addEventListener("click", () => {
+    if (square.textContent == "") {
+      square.textContent = handlePlayerChange();
+    }
+  });
 });
 
-window.onload = () => {
-  if (document.querySelector(".board") !== null) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const player1Name = urlParams.get("player1");
-    const player2Name = urlParams.get("player2");
+const urlParams = new URLSearchParams(window.location.search);
+const player1Name = urlParams.get("player1");
+const player2Name = urlParams.get("player2");
 
-    let [player1Mark, player2Mark] = sortMarks();
+let [player1Mark, player2Mark] = sortMarks();
 
-    const player1 = new Player(player1Name, player1Mark);
-    const player2 = new Player(player2Name, player2Mark);
+const player1 = new Player((player1Name || "Player 1"), player1Mark);
+const player2 = new Player((player2Name || "Player 2"), player2Mark);
 
-    setNames(player1.getName(), player2.getName());
-    setMarks(player1.getMark(), player2.getMark());
-  }
-};
+setNames(player1.getName(), player2.getName());
+setMarks(player1.getMark(), player2.getMark()); 
 

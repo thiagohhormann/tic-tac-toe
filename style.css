@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Unbounded&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /*** Reset ***/
 
 html, body, div, span, applet, object, iframe,
@@ -50,7 +49,7 @@ table {
 /**********/
 
 html, body {margin: 0; padding: 0; overflow-x:hidden;  
-   font-family: 'Anton', sans-serif; 
+  font-family: 'Bebas Neue', cursive;
 }
 
 header {
@@ -79,9 +78,12 @@ header {
 }
 
 .square {
-  display: block;
+  display: flex;
   border: 2px solid black;
   height: calc(100vw/3 - 12px);
+  font-size: 3.5rem;
+  justify-content: center; 
+  align-items: center;
 }
 
 .status{
@@ -137,7 +139,6 @@ header {
 
 .settings h1 {
   text-align: center;
-  font-family: 'Anton', sans-serif;
   font-size: calc(100vw/10);
   padding: 5%;
   font-weight:bold;
