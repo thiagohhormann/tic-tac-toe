@@ -40,8 +40,9 @@ class Player {
 }
 
 class Game {
-  constructor(status = 0) {
+  constructor(status = 0, currentPlayer = "x") {
     this.status = status;
+    this.currentPlayer = currentPlayer;
   }
 
   getStatus() {
@@ -58,6 +59,14 @@ class Game {
   setStatus(_status) {
     this.status = _status;
   }
+
+  getCurrentPlayer() {
+    return this.currentPlayer;
+  }
+
+  setCurrentPlayer(currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
 }
 
 function sortMarks() {
@@ -70,9 +79,11 @@ function sortMarks() {
 const squares = document.querySelectorAll(".square");
 const scoreLeft = document.getElementsByClassName("score-left");
 const scoreRight = document.getElementsByClassName("score-right");
+const gameStatus = document.getElementsByClassName("status");
 
 const labelScoreLeft = scoreLeft[0].children;
 const labelScoreRight = scoreRight[0].children;
+const gameStatusLabel = gameStatus[0].children[0];
 
 function cleanBoard() {
   squares.forEach((e) => {
@@ -90,20 +101,35 @@ function setMarks(player1Mark, player2Mark) {
   labelScoreRight[1].textContent = player2Mark.toUpperCase();
 }
 
+function setGameStatus(game) {
+  gameStatusLabel.textContent = game.getStatus();
+}
+
 let currentPlayer = "o";
 
 function handlePlayerChange() {
-  currentPlayer = (currentPlayer == "x" ? "o" : "x");
+  currentPlayer = currentPlayer == "x" ? "o" : "x";
   return currentPlayer;
 }
 
-squares.forEach((square) => {
-  square.addEventListener("click", () => {
-    if (square.textContent == "") {
-      square.textContent = handlePlayerChange();
-    }
-  });
-});
+function endGame(game) {
+  game.setStatus(2);
+  setGameStatus(game);
+  rounds = 0;
+  setTimeout(() => {
+    resetGame();
+  }, 2500);
+}
+
+function resetGame() {
+  cleanBoard();
+  [player1Mark, player2Mark] = sortMarks();
+  player1.setMark(player1Mark);
+  player2.setMark(player2Mark);
+  setMarks(player1.getMark(), player2.getMark());
+}
+
+const game = new Game(1);
 
 const urlParams = new URLSearchParams(window.location.search);
 const player1Name = urlParams.get("player1");
@@ -111,9 +137,24 @@ const player2Name = urlParams.get("player2");
 
 let [player1Mark, player2Mark] = sortMarks();
 
-const player1 = new Player((player1Name || "Player 1"), player1Mark);
-const player2 = new Player((player2Name || "Player 2"), player2Mark);
+const player1 = new Player(player1Name || "Player 1", player1Mark);
+const player2 = new Player(player2Name || "Player 2", player2Mark);
 
 setNames(player1.getName(), player2.getName());
-setMarks(player1.getMark(), player2.getMark()); 
+setMarks(player1.getMark(), player2.getMark());
+setGameStatus(game);
 
+let moves = [];
+let rounds = 0;
+
+squares.forEach((square) => {
+  square.addEventListener("click", () => {
+    if (square.textContent == "") {
+      square.textContent = handlePlayerChange();
+      rounds = moves.push(square.getAttribute("cell-index"));
+    }
+    if (rounds == 9) {
+      endGame(game);
+    }
+  });
+});
