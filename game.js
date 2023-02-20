@@ -4,6 +4,7 @@ class Player {
     this.mark = mark;
     this.wins = wins;
     this.loses = loses;
+    this.moves = [];
   }
 
   getName() {
@@ -36,6 +37,18 @@ class Player {
 
   increaseLoses() {
     this.loses++;
+  }
+
+  getMoves() {
+    return this.moves;
+  }
+
+  addMove(move) {
+    this.moves.push(move);
+  }
+
+  cleanMoves() {
+    this.moves = [];
   }
 }
 
@@ -115,23 +128,22 @@ if (divs) {
   const player1Name = urlParams.get("player1");
   const player2Name = urlParams.get("player2");
 
-  
   const player1 = new Player(player1Name || "Player 1", player1Mark);
   const player2 = new Player(player2Name || "Player 2", player2Mark);
-  
+
   function defineFirstPlayer(player1, player2) {
     if (player1.getMark() == "x") {
       return player1;
     }
     return player2;
   }
-  
-  function setNewMarks(player1, player2){
-    player1Mark, player2Mark = sortMarks();
+
+  function setNewMarks(player1, player2) {
+    player1Mark, (player2Mark = sortMarks());
     player1.setMark(player1Mark);
     player2.setMark(player2Mark);
   }
-  
+
   const game = new Game(1, defineFirstPlayer(player1, player2));
 
   function setNamesLabels(player1Name = "Player 1", player2Name = "Player 2") {
@@ -152,6 +164,10 @@ if (divs) {
 
   function startGame(game, player1, player2) {
     cleanBoard();
+
+    game.cleanRounds();
+    player1.cleanMoves();
+    player2.cleanMoves();
 
     setNewMarks(player1, player2);
     setMarksLabels(player1.getMark(), player2.getMark());
@@ -178,81 +194,95 @@ if (divs) {
   }
 
   const winningConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
     [1, 4, 7],
     [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
   ];
 
-  /*  checkForWinner(){
+  let count = 0;
+  const equalCheck = (arr, moves) => {
+    count = 0;
 
-  }*/
+    moves.forEach((el) => {
+      if (arr.includes(el)) {
+        count++;
+      }
+    });
 
-  
+    if (count >= 3) {
+      return true;
+    }
+
+    return false;
+  };
+
+  function checkForWinner(currentPlayer) {
+    const moves = currentPlayer.getMoves();
+    let status = false;
+
+    moves.sort((a, b) => {
+      return a - b;
+    });
+
+    console.log(moves);
+
+    if (moves.length >= 3) {
+      winningConditions.forEach((arr) => {
+        console.log(equalCheck(arr, moves));
+        console.log(arr, moves);
+        if (equalCheck(arr, moves)) {
+          status = true;
+          return;
+        }
+      });
+    }
+
+    return status;
+  }
+
   startGame(game, player1, player2);
 
   squares.forEach((square) => {
-    square.addEventListener("click", () => {
-      if (square.textContent == "") {
+    square.addEventListener("click", (event) => {
+      if (square.textContent === "") {
         square.textContent = game.getCurrentPlayer().getMark();
-        game.setCurrentPlayer(handlePlayerChange(game, player1, player2));
-        setGameStatusLabel(game, game.getCurrentPlayer().getName() + "'s turn")
-        game.addRound(square.getAttribute("cell-index"));
 
+        let cellIndex = parseInt(square.getAttribute("cell-index"));
+
+        game.addRound(cellIndex);
+        game.getCurrentPlayer().addMove(cellIndex);
+
+        let winner = checkForWinner(game.getCurrentPlayer());
+
+        if (winner) {
+          let message = game.getCurrentPlayer().getName() + " Wins!";
+          endGame(game, message);
+
+          setTimeout(() => {
+            startGame(game, player1, player2);
+          }, 1000);
+
+          return;
+        } 
+        
         if (checkForDraw(game)) {
           endGame(game, "Draw!");
 
           setTimeout(() => {
             startGame(game, player1, player2);
-          }, 2500);
+          }, 1000);
+
+          return;
         }
+
+        game.setCurrentPlayer(handlePlayerChange(game, player1, player2));
+        setGameStatusLabel(game, game.getCurrentPlayer().getName() + "'s turn");
       }
     });
   });
 }
-/*
-  squares.forEach((square) => {
-    square.addEventListener("click", () => {
-      if (square.textContent == "") {
-        square.textContent = ;
-  
-        if(game.getCurrentPlayer() == player1.getName()){
-          game.setCurrentPlayer(player2.getName())
-        } else {
-          game.setCurrentPlayer(player1.getName())
-        }
-  
-        message = game.getCurrentPlayer() + "'s turn";
-        setGameStatus(game, message);
-  
-        rounds = moves.push(square.getAttribute("cell-index"));
-      }
-  
-      if (!checkRounds(rounds)) {
-        moves = [];
-        endGame(game);
-      }
-    });
-  });
-}
-
-
-  let moves = [];
-  let rounds;
-  let checkRounds = function (rounds) {
-    if (rounds >= 9) {
-      return 0;
-    }
-
-    return 1;
-  };
-
-// Necessário refazer lógica para ter um main chamando as funções e uma função para o primeiro a jogar
-// definir primeiro player e configurar status's game
-// definir current player e configurar status
-// juntar primeiro player na função handler 
-*/
