@@ -12,20 +12,34 @@
     <div class="container">
       <div class="wrapper-modal">
         <div class="modal">
-          <form action="game.html?player1=player1&player2=player2" method="get">
+            <form action="game.html?player1=player1&color1player=color1player&player2=player2&color2player=color2player" method="get">
             <h1>tic-tac-toe</h1>
-            <input
-              type="text"
-              name="player1"
-              id="player1"
-              placeholder="Player 1"
-            />
-            <input
-              type="text"
-              name="player2"
-              id="player2"
-              placeholder="Player 2"
-            />
+            <div class="row">
+              <div class="column">
+                <input
+                  type="text"
+                  name="player1"
+                  id="player1"
+                  placeholder="Player 1"
+                />
+              </div>
+              <div class="column">
+                <input type="color" name="color1player" id="color1player" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="column">
+                <input
+                  type="text"
+                  name="player2"
+                  id="player2"
+                  placeholder="Player 2"
+                />
+              </div>
+              <div class="column">
+                <input type="color" name="color2player" id="color2player" />
+              </div>
+            </div>
             <button type="submit">Play</button>
           </form>
         </div>

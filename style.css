@@ -148,38 +148,95 @@ header {
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
   border: 2px solid aqua;
 }
-
 
 .wrapper {
   border: 2px solid royalblue;
 }
 
 .wrapper-modal {
-  border: 2px solid chartreuse; 
+  border: 2px solid chartreuse;
+  width: 100%;
 }
 
 .modal {
+  display: flex;
   border: 2px solid crimson;
+  margin: 5%;
+  justify-content: center;
 }
 
-.modal h1 {
-  margin-top: 5%;
-  margin-bottom: 5%;
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.modal input {
+.row:first-of-type{
   margin-bottom: 2%;
 }
 
-.modal button {
-  margin-top: 3%;
+.column {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.column:nth-of-type(odd){
+  border: 2px solid blue;
+  width: 60%;
+}
+
+.column:nth-child(even){
+  border: 2px solid purple;
+  align-items: center;
 }
 
 
+.modal form h1{
+  margin-top: 5%;
+  margin-bottom: 5%;
+  text-align: center;
+  font-size: 1.5rem;
+}
 
+.modal form input{
+  padding: 5%;
+  font-size: .8rem;
+}
 
+.modal input[type="text"] {
+  border: 1px solid black;
+  text-align: center;
+  height: 100%;
+}
+
+.modal input[type="color"] {
+  background-color: transparent;
+  padding: 0;
+  width: 50%;
+  height: 100%;
+  border:none;
+  cursor: pointer;
+}
+
+.modal input:focus {
+  outline: none;
+}
+
+.modal button {
+  display: block;
+  margin: auto;
+  margin-top: 5%;
+  padding-inline: 5%;
+  border: 1px solid black;
+  background-color: white;
+}
 
 .board {
   border: 2px solid green;
@@ -260,42 +317,6 @@ header {
   background-color: grey;
 }
 
-.currentPlayer {
-  border: 2px solid gold;
-}
-
-.wrapper-settings {
-  border: 2px solid red;
-  display: flex;
-  margin: auto;
-  width: calc(100vw / 2);
-}
-
-.settings {
-  border: 2px solid steelblue;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10%;
-}
-
-form {
-  text-align: center;
-}
-
-form > h1,
-form > input {
-  text-align: center;
-}
-
-.settings h1 {
-}
-
-.settings input {
-  box-sizing: border-box;
-  width: 100%;
-}
-
 /** > 250px */
 
 @media screen and (min-width: 350px) {
@@ -310,6 +331,14 @@ form > input {
 }
 
 @media screen and (min-width: 500px) {
+  
+  .modal {
+    margin-inline: auto;
+    width: fit-content;
+    height: fit-content;
+    padding: 5%;
+    border: 5px solid #000000;
+  }
   .container {
     display: flex;
     justify-content: center;
@@ -322,7 +351,6 @@ form > input {
   }
 
   .board {
-    height: 500px;
     margin: auto;
     margin-top: 10%;
     width: fit-content;
@@ -332,5 +360,18 @@ form > input {
   .square {
     height: calc(300px / 3);
     width: calc(300px / 3);
+  }
+  
+}
+
+@media screen and (min-width: 600px){
+
+
+  .modal form h1 {
+    font-size: 2.5rem;
+  }
+
+  .modal form button {
+    font-size: 1rem;
   }
 }
