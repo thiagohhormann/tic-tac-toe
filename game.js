@@ -105,10 +105,7 @@ function sortMarks() {
   return player1Mark, player2Mark;
 }
 
-// If it is not the game page, the script won't load
-const divs = document.querySelector(".board");
-
-if (divs) {
+if (document.getElementsByClassName("board").length) {
   const squares = document.querySelectorAll(".square");
   const scoreLeft = document.getElementsByClassName("score-left");
   const scoreRight = document.getElementsByClassName("score-right");
@@ -268,8 +265,8 @@ if (divs) {
           }, 1000);
 
           return;
-        } 
-        
+        }
+
         if (checkForDraw(game)) {
           endGame(game, "Draw!");
 

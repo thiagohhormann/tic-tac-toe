@@ -1,55 +1,142 @@
 @import url("https://fonts.googleapis.com/css2?family=Unbounded&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mynerve&display=swap");
+
 /*** Reset ***/
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /**********/
 
-html, body {margin: 0; padding: 0; overflow-x:hidden;  
-  font-family: 'Bebas Neue', cursive;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Bebas Neue", cursive;
 }
 
 header {
@@ -59,19 +146,54 @@ header {
 /*** Main Style ***/
 
 .container {
-  border: 2px solid purple;
+  display: flex;
+  justify-content: center;
+  border: 2px solid aqua;
 }
+
 
 .wrapper {
   border: 2px solid royalblue;
 }
 
-.board {
-  border: 2px solid green;
-  display: flex;
+.wrapper-modal {
+  border: 2px solid chartreuse; 
 }
 
-.column{
+.modal {
+  border: 2px solid crimson;
+}
+
+.modal h1 {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.modal input {
+  margin-bottom: 2%;
+}
+
+.modal button {
+  margin-top: 3%;
+}
+
+
+
+
+
+.board {
+  border: 2px solid green;
+  font-family: "Mynerve", cursive;
+  font-weight: 900;
+  font-size: 5rem;
+  display: flex;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+.column {
+  display: flex;
   border: 2px solid aqua;
   flex-flow: column;
   width: 100%;
@@ -80,13 +202,15 @@ header {
 .square {
   display: flex;
   border: 2px solid black;
-  height: calc(100vw/3 - 12px);
-  font-size: 3.5rem;
-  justify-content: center; 
+  height: calc(100vw / 3 - 12px);
+  width: calc(100vw / 3 - 12px);
+  max-width: calc(300px / 3);
+  max-height: calc(300px / 3);
+  justify-content: center;
   align-items: center;
 }
 
-.status{
+.status {
   border: 2px solid chartreuse;
   text-align: center;
   margin-top: 5%;
@@ -109,75 +233,104 @@ header {
 .score > div {
   padding: 5% 5%;
   text-align: center;
-  min-width: calc(100vw / 2 - 5vh);
+  width: calc(100vw / 2 - 5vh);
+}
+
+.score p {
+  background-color: grey;
+  padding: 5% 2%;
 }
 
 .score-left {
+  margin-left: 5%;
   border: 2px solid crimson;
 }
 
 .score-right {
+  margin-right: 5%;
   border: 2px solid blue;
 }
 
-.score-left p, .score-right p{
-  background-color: grey;
+.score-left p:first-child,
+.score-right p:first-child {
   margin-bottom: 5%;
-  padding: 5% 2%;
 }
 
-
-.score p{
+.score p {
   background-color: grey;
-}
-
-.settings {
-  display: flex;
-  flex-flow: column;
-  height: 100vw;
-}
-
-.settings h1 {
-  text-align: center;
-  font-size: calc(100vw/10);
-  padding: 5%;
-  font-weight:bold;
-  text-transform: uppercase;
-  
-}
-
-form {
-  border: 2px solid blue;
-  display: flex;
-  flex-flow: column;
-  height: 50vw;
-  justify-content: center;
-  gap: 5%;
-}
-
-form input {
-  width: 60vw;
-  height: 20%;
-  text-align: center;
-  align-self: center;
-  border: 1px solid black;
-  box-shadow: 2px 2px black; 
-  border-radius: 2px;
-  outline: none;
-}
-
-form button {
-  text-transform: uppercase;
-  padding: 2% 5%;
-  font-weight: bold;
-  border: 1px solid black;
-  border-radius: 2px;
-  background: none;
-  margin-inline: auto;
-  margin-top: 5%;
 }
 
 .currentPlayer {
   border: 2px solid gold;
 }
 
+.wrapper-settings {
+  border: 2px solid red;
+  display: flex;
+  margin: auto;
+  width: calc(100vw / 2);
+}
+
+.settings {
+  border: 2px solid steelblue;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+}
+
+form {
+  text-align: center;
+}
+
+form > h1,
+form > input {
+  text-align: center;
+}
+
+.settings h1 {
+}
+
+.settings input {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/** > 250px */
+
+@media screen and (min-width: 350px) {
+  .board {
+    font-size: 8em;
+  }
+
+  .status,
+  .score {
+    font-size: 1.5em;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrapper {
+    border: 2px solid rebeccapurple;
+    width: 500px;
+  }
+
+  .board {
+    height: 500px;
+    margin: auto;
+    margin-top: 10%;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .square {
+    height: calc(300px / 3);
+    width: calc(300px / 3);
+  }
+}
