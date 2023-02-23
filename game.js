@@ -298,9 +298,9 @@ if (document.getElementsByClassName("board").length) {
           let message = currentPlayerName + " Wins!";
           endGame(game, message);
 
-          // setTimeout(() => {
-          //   startGame(game, player1, player2);
-          // }, 1000);
+          setTimeout(() => {
+            startGame(game, player1, player2);
+          }, 1000);
 
           return;
         }
