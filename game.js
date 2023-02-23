@@ -1,7 +1,8 @@
 class Player {
-  constructor(name, mark, wins = 0, loses = 0) {
+  constructor(name, mark, color, wins = 0, loses = 0) {
     this.name = name;
     this.mark = mark;
+    this.color = color;
     this.wins = wins;
     this.loses = loses;
     this.moves = [];
@@ -21,6 +22,14 @@ class Player {
 
   setMark(mark) {
     this.mark = mark;
+  }
+
+  getColor() {
+    return this.color;
+  }
+
+  setColor(color) {
+    this.color = color;
   }
 
   getWins() {
@@ -107,13 +116,13 @@ function sortMarks() {
 
 if (document.getElementsByClassName("board").length) {
   const squares = document.querySelectorAll(".square");
-  const scoreLeft = document.getElementsByClassName("score-left");
-  const scoreRight = document.getElementsByClassName("score-right");
-  const gameStatus = document.getElementsByClassName("status");
+  const scoreLeft = document.getElementById("score-left");
+  const scoreRight = document.getElementById("score-right");
+  const gameStatus = document.getElementById("status");
 
-  const labelScoreLeft = scoreLeft[0].children;
-  const labelScoreRight = scoreRight[0].children;
-  const gameStatusLabel = gameStatus[0].children[0];
+  const labelScoreLeft = scoreLeft.children;
+  const labelScoreRight = scoreRight.children;
+  const gameStatusLabel = gameStatus.children[0];
 
   function cleanBoard() {
     squares.forEach((e) => {
@@ -123,10 +132,20 @@ if (document.getElementsByClassName("board").length) {
 
   const urlParams = new URLSearchParams(window.location.search);
   const player1Name = urlParams.get("player1");
+  const player1color = urlParams.get("player1color");
   const player2Name = urlParams.get("player2");
+  const player2color = urlParams.get("player2color");
 
-  const player1 = new Player(player1Name || "Player 1", player1Mark);
-  const player2 = new Player(player2Name || "Player 2", player2Mark);
+  const player1 = new Player(
+    player1Name || "Player 1",
+    player1Mark,
+    player1color
+  );
+  const player2 = new Player(
+    player2Name || "Player 2",
+    player2Mark,
+    player2color
+  );
 
   function defineFirstPlayer(player1, player2) {
     if (player1.getMark() == "x") {
@@ -143,21 +162,35 @@ if (document.getElementsByClassName("board").length) {
 
   const game = new Game(1, defineFirstPlayer(player1, player2));
 
-  function setNamesLabels(player1Name = "Player 1", player2Name = "Player 2") {
-    labelScoreLeft[0].textContent = player1Name;
-    labelScoreRight[0].textContent = player2Name;
+  function setNamesLabels(player1, player2) {
+    labelScoreLeft[0].textContent = player1.getName();
+    labelScoreRight[0].textContent = player2.getName();
   }
 
-  function setMarksLabels(player1Mark, player2Mark) {
-    labelScoreLeft[1].textContent = player1Mark.toUpperCase();
-    labelScoreRight[1].textContent = player2Mark.toUpperCase();
+  function setMarksLabels(player1, player2) {
+    labelScoreLeft[1].textContent = player1.getMark().toUpperCase();
+    labelScoreLeft[1].style.color = player1.getColor();
+    labelScoreRight[1].textContent = player2.getMark().toUpperCase();
+    labelScoreRight[1].style.color = player2.getColor();
   }
 
-  function setGameStatusLabel(_game, message) {
+  function setPlayersColor(player1, player2) {
+    scoreLeft.style.border = "2px solid " + player1.getColor();
+    scoreLeft.style.background = player1.getColor();
+
+    scoreRight.style.border = "2px solid " + player2.getColor();
+    scoreRight.style.background = player2.getColor();
+  }
+
+  function setGameStatusLabel(game, message) {
     gameStatusLabel.textContent = message;
+    gameStatus.style.border = "5px solid" + game.getCurrentPlayer().getColor();
+    gameStatus.style.borderInline = 0;
+    
   }
 
-  setNamesLabels(player1.getName(), player2.getName());
+  setNamesLabels(player1, player2);
+  setPlayersColor(player1, player2);
 
   function startGame(game, player1, player2) {
     cleanBoard();
@@ -166,8 +199,9 @@ if (document.getElementsByClassName("board").length) {
     player1.cleanMoves();
     player2.cleanMoves();
 
+    setPlayersColor(player1, player2);
     setNewMarks(player1, player2);
-    setMarksLabels(player1.getMark(), player2.getMark());
+    setMarksLabels(player1, player2);
     game.setCurrentPlayer(defineFirstPlayer(player1, player2));
     setGameStatusLabel(game, game.getCurrentPlayer().getName() + "'s turn");
   }
@@ -226,8 +260,6 @@ if (document.getElementsByClassName("board").length) {
       return a - b;
     });
 
-    console.log(moves);
-
     if (moves.length >= 3) {
       winningConditions.forEach((arr) => {
         console.log(equalCheck(arr, moves));
@@ -246,23 +278,29 @@ if (document.getElementsByClassName("board").length) {
 
   squares.forEach((square) => {
     square.addEventListener("click", (event) => {
+      let currentPlayer = game.getCurrentPlayer();
+      let currentPlayerName = currentPlayer.getName();
+      let currentPlayerMark = currentPlayer.getMark();
+      let currentPlayerColor = currentPlayer.getColor();
+
       if (square.textContent === "") {
-        square.textContent = game.getCurrentPlayer().getMark();
+        square.style.color = currentPlayerColor;
+        square.textContent = currentPlayerMark;
 
         let cellIndex = parseInt(square.getAttribute("cell-index"));
 
         game.addRound(cellIndex);
-        game.getCurrentPlayer().addMove(cellIndex);
+        currentPlayer.addMove(cellIndex);
 
-        let winner = checkForWinner(game.getCurrentPlayer());
+        let winner = checkForWinner(currentPlayer);
 
         if (winner) {
-          let message = game.getCurrentPlayer().getName() + " Wins!";
+          let message = currentPlayerName + " Wins!";
           endGame(game, message);
 
-          setTimeout(() => {
-            startGame(game, player1, player2);
-          }, 1000);
+          // setTimeout(() => {
+          //   startGame(game, player1, player2);
+          // }, 1000);
 
           return;
         }
